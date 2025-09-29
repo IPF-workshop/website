@@ -7,14 +7,13 @@
 
 const WORKSHOP_CONFIG = {
     // Current workshop year
-    currentYear: 2025,
+    currentYear: 2026,
     
-    // Workshop phase: 'call-for-talks', 'schedule', 'past'
-    currentPhase: 'schedule',
+    // Workshop phase: 'call-for-talks', 'schedule', 'past', 'upcoming'
+    currentPhase: 'upcoming',
     
     // Component paths
     components: {
-        'call-for-talks': '2026/call-for-talks.html',
         'schedule': 'components/schedule-reader.html'
     },
     
@@ -27,9 +26,9 @@ const WORKSHOP_CONFIG = {
             scheduleDataPath: '2025/schedule.csv'
         },
         2026: {
-            date: 'TBD 2026',
+            date: 'Summer 2026',
             location: 'TBD',
-            registrationUrl: null,
+            registrationUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfHp0EslKUkQcztFAkVuYVIBoGKdsUCgOQL98bwzelvx0NiJA/viewform?usp=header',
             scheduleDataPath: null
         }
     }

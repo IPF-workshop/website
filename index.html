@@ -27,24 +27,42 @@
         <h2>About the Workshop</h2>
         
         <p>The Israeli Privacy and Fairness Workshop is an annual gathering that brings together researchers, students, and practitioners from Israel's vibrant academic community working at the intersection of privacy and fairness in machine learning and data science.</p>
-    
-        
-        <div class="workshop-cta" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 30px 0; text-align: center;">
-            <h3 id="current-workshop-title">Current Workshop</h3>
-            <p id="current-workshop-description">Loading workshop information...</p>
-            <div style="margin-top: 15px;">
-                <a href="#" id="registration-button" class="btn" style="margin-right: 10px;">Register &rarr;</a>
-                <a href="#" id="schedule-button" class="btn">View Schedule &rarr;</a>
-            </div>
-        </div>
+
+        <h3>Next Meeting</h3>
+        <p>The next Israeli Privacy and Fairness Workshop is planned for <strong>summer 2026</strong>. More details will be announced in the coming months.</p>
+        <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfHp0EslKUkQcztFAkVuYVIBoGKdsUCgOQL98bwzelvx0NiJA/viewform?usp=header" target="_blank" rel="noopener noreferrer" class="btn">Register for Updates &rarr;</a></p>
+
+        <h3>Past Workshops</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Page</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025</td>
+                    <td>Thursday, June 12th, 2025</td>
+                    <td>Hebrew University of Jerusalem</td>
+                    <td><a href="2025/index.html" class="btn">View</a></td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>Tuesday, June 4th, 2024</td>
+                    <td>Elma Arts Complex Luxury Hotel, Zikhron Ya'akov</td>
+                    <td><a href="2024/index.html" class="btn">View</a></td>
+                </tr>
+            </tbody>
+        </table>
         
         <h3>Organizers</h3>
         <p>Katrina Ligett and Moshe Shenfeld</p>
         
         <h3>Contact</h3>
         <p>For inquiries, please contact: moshe.shenfeld [at] mail.huji.ac.il</p>
-        
-        <p><a href="past.html">View Past Workshops &rarr;</a></p>
     </main>
     </div>
     <footer class="fade-in">
@@ -52,51 +70,11 @@
     </footer>
 
     <script>
-        // Update dynamic content based on current workshop configuration
+        // Update navigation link to point to 2026 workshop
         document.addEventListener('DOMContentLoaded', () => {
-            try {
-                const workshopInfo = getCurrentWorkshopInfo();
-                const currentYear = WORKSHOP_CONFIG.currentYear;
-                const currentPhase = WORKSHOP_CONFIG.currentPhase;
-                
-                // Update navigation link
-                const upcomingLink = document.getElementById('upcoming-workshop-link');
-                upcomingLink.href = `${currentYear}/index.html`;
-                
-                // Update workshop call-to-action section
-                const title = document.getElementById('current-workshop-title');
-                const description = document.getElementById('current-workshop-description');
-                const registrationButton = document.getElementById('registration-button');
-                const scheduleButton = document.getElementById('schedule-button');
-                
-                if (currentPhase === 'call-for-talks') {
-                    title.textContent = `${currentYear} Workshop - Call for Talks`;
-                    description.innerHTML = `We are currently accepting submissions for talks at our ${currentYear} workshop. Share your latest research in privacy and fairness!`;
-                    registrationButton.textContent = 'Submit Your Talk →';
-                    registrationButton.href = `${currentYear}/index.html`;
-                    scheduleButton.style.display = 'none'; // Hide schedule button during call for talks
-                } else if (currentPhase === 'schedule') {
-                    title.textContent = `${currentYear} Workshop - ${workshopInfo.date}`;
-                    description.innerHTML = `Join us at <strong>${workshopInfo.location}</strong> for our ${currentYear} workshop.`;
-                    registrationButton.textContent = 'Register →';
-                    registrationButton.href = `${currentYear}/index.html#registration`;
-                    scheduleButton.textContent = 'View Schedule →';
-                    scheduleButton.href = `${currentYear}/index.html#schedule`;
-                    scheduleButton.style.display = 'inline-block'; // Show schedule button
-                } else {
-                    title.textContent = `${currentYear} Workshop`;
-                    description.innerHTML = `Information about our ${currentYear} workshop will be available soon.`;
-                    registrationButton.textContent = 'Learn More →';
-                    registrationButton.href = `${currentYear}/index.html`;
-                    scheduleButton.style.display = 'none'; // Hide schedule button
-                }
-                
-            } catch (error) {
-                console.error('Error loading workshop info:', error);
-                // Fallback content
-                document.getElementById('current-workshop-description').textContent = 'Workshop information will be updated soon.';
-                document.getElementById('registration-button').href = '2025/index.html';
-                document.getElementById('schedule-button').href = '2025/index.html';
+            const upcomingLink = document.getElementById('upcoming-workshop-link');
+            if (upcomingLink) {
+                upcomingLink.href = '2026/index.html';
             }
         });
     </script>
