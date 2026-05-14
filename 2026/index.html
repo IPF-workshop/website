@@ -3,39 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 Workshop - Israeli Privacy and Fairness Workshop</title>
-    <link rel="stylesheet" href="../style.css">
-    
+    <title>2025 Workshop - Israeli Privacy and Fairness Workshop</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Link to the main CSS file -->
+
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
 </head>
 <body>
     <header class="fade-in">
-        <h1>The Israeli Privacy and Fairness Workshop (2026)</h1>
+        <h1>The Israeli Privacy and Fairness Workshop (July 2026)</h1>
     </header>
     <div class="container fade-in">
     <nav>
         <ul>
             <li><a href="../index.html">Home</a></li>
-            <li><a href="index.html">Upcoming Workshop</a></li>
+            <li><a href="../2026/index.html">Upcoming Workshop</a></li>
             <li><a href="../past.html">Past Workshops</a></li>
         </ul>
     </nav>
     </div>
     <div class="container fade-in">
     <main>
-        <h2>Third Israeli Privacy and Fairness Workshop</h2>
+        <h2>Second Israeli Privacy and Fairness Workshop</h2>
 
-        <div class="workshop-announcement" style="background-color: #f8f9fa; padding: 30px; border-radius: 8px; margin: 30px 0; text-align: center; border-left: 4px solid #007bff;">
-            <!-- <h3 style="color: #007bff; margin-bottom: 20px;">Coming Soon!</h3> -->
-            <p style="font-size: 1.2em; margin-bottom: 15px;">The 2026 Israeli Privacy and Fairness Workshop will take place in the <strong>summer of 2026</strong>.</p>
-            <p style="color: #666; margin-bottom: 20px;">More details about the event, including the exact date, location, and call for talks, will be announced in the coming months.</p>
-            <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfHp0EslKUkQcztFAkVuYVIBoGKdsUCgOQL98bwzelvx0NiJA/viewform?usp=header" target="_blank" rel="noopener noreferrer" class="btn" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">Register for Updates &rarr;</a></p>
-        </div>
+        <p><strong>Date:</strong> Monday, July 20th, 2026</p>
+        <p><strong>Location:</strong> <a href="https://maps.app.goo.gl/NtZBeUDStP2B9NLBA" target="_blank">The Alexander Grass Computer Science Building</a>, Hebrew University of Jerusalem. The morning sessions (until lunch) will take place in room B220 and will be combined with the <a href="https://www.cs.huji.ac.il/news-events/learning-club" target="_blank">Machine Learning Seminar</a>. The rest of the day will take place at the faculty lounge (C321).</p>
 
-        <p><a href="../past.html">View Past Workshops &rarr;</a></p>
+        <h3>Overview</h3>
+        <p>This one day workshop is intended to bring together researchers and students from our community (in the broad sense of the word), and will include a combination of full length and short talks by some of the participants. We hope to include a include a poster session this year.</p>
+        <p>The target audience includes academic and academic-adjacent individuals in Israel working in the fields of Privacy and Fairness.</p>
+
+        <h3>Registration</h3>
+        <p><strong>Registration is required!</strong></p>
+        <p><a href="https://forms.gle/roit72uv74NnLtzc9" target="_blank" rel="noopener noreferrer" class="btn">Register Now &rarr;</a></p>
+        <!-- Note: I've changed the /edit URL to /viewform for the public link -->
+        <!-- Add registration link or details here -->
+
+        <h3>Schedule</h3>
+        Schedule coming soon!
+<!--        <div id="schedule-container" data-year="2026">-->
+<!--            <p>Loading schedule... (JavaScript should replace this)</p>-->
+<!--        </div>-->
+
+        <h3>Organizers</h3>
+        <p>Katrina Ligett, Moshe Shenfeld, and Tomer Shoham</p>
+        <!-- Add organizer details later -->
+
+        <h3>Contact</h3>
+        <p>For inquiries, please contact: moshe.shenfeld [at] mail.huji.ac.il or tomer.shoham [at] mail.huji.ac.il</p>
+        <!-- Add contact details later -->
+
+        <h3>Funding</h3>
+        <p>This workshop was supported in part by ERC grant 101125913.</p>
+
     </main>
     </div>
     <footer class="fade-in">
         <p>&copy; Israeli Privacy and Fairness Workshop</p>
     </footer>
+
+    <script src="../components/workshop-config.js"></script>
+    <script>
+        // Load schedule when page loads using the shared component system
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('Loading 2025 workshop schedule...');
+            try {
+                // Load the shared schedule component
+                const response = await fetch('../components/schedule-reader.html');
+                if (!response.ok) {
+                    throw new Error(`Failed to load schedule component: ${response.status}`);
+                }
+
+                const scheduleHTML = await response.text();
+
+                // Extract just the script content and container from the component
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = scheduleHTML;
+
+                // First preserve the data-year attribute
+                const originalYear = document.getElementById('schedule-container').getAttribute('data-year');
+
+                // Update the container with the component's container content
+                const componentContainer = tempDiv.querySelector('#schedule-container');
+                if (componentContainer) {
+                    document.getElementById('schedule-container').innerHTML = componentContainer.innerHTML;
+                    // Re-apply the data-year attribute that might have been lost
+                    document.getElementById('schedule-container').setAttribute('data-year', originalYear);
+                }
+
+                // Execute the component's scripts
+                const scripts = tempDiv.querySelectorAll('script');
+                for (let i = 0; i < scripts.length; i++) {
+                    const script = scripts[i];
+                    // Create a Promise to make sure each script completes before the next one
+                    await new Promise((resolve) => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        // When the script is loaded, resolve the promise
+                        newScript.onload = resolve;
+                        // If there's an error, still resolve to continue
+                        newScript.onerror = resolve;
+                        document.head.appendChild(newScript);
+                        // Also resolve after a short timeout in case onload doesn't fire
+                        setTimeout(resolve, 100);
+                    });
+                }
+
+                // Explicitly trigger the schedule loading
+                // This ensures the scripts have had time to load before attempting to load the schedule
+                setTimeout(() => {
+                    // Check if MathJax is loaded, if not wait for it
+                    const waitForMathJax = () => {
+                        if (window.MathJax) {
+                            const container = document.getElementById('schedule-container');
+                            const year = container.getAttribute('data-year');
+                            if (window.loadScheduleWithRetry && year) {
+                                console.log('Explicitly triggering loadScheduleWithRetry for year:', year);
+                                window.loadScheduleWithRetry(year, 0);
+                            }
+                        } else {
+                            console.log('Waiting for MathJax to load...');
+                            setTimeout(waitForMathJax, 100);
+                        }
+                    };
+                    waitForMathJax();
+                }, 300);
+
+            } catch (error) {
+                console.error('Error loading schedule component:', error);
+                document.getElementById('schedule-container').innerHTML =
+                    '<p>Schedule currently unavailable. Please try again later.</p>';
+            }
+        });
+    </script>
 </body>
 </html>
