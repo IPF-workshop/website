@@ -21,9 +21,10 @@
                 // Safely access properties with fallbacks
                 const speaker = (item.speaker || '').toString();
                 const title = (item.title || '').toString();
-                // Process \n escape sequences in abstract and bio to create real line breaks
-                const abstract = (item.abstract || '').toString().replace(/\\n/g, '<br>');
-                const bio = (item.bio || '').toString().replace(/\\n/g, '<br>');
+                // Support both literal \n sequences and real line breaks from CSV cells.
+                const formatMultilineText = (value) => value.toString().replace(/\\n|\r?\n/g, '<br>');
+                const abstract = formatMultilineText(item.abstract || '');
+                const bio = formatMultilineText(item.bio || '');
                 const startTime = (item.start_time || '').toString();
                 const endTime = (item.end_time || '').toString();
                 const expandable = (item.expandable || '').toString();
@@ -125,61 +126,70 @@
         }
     }
 
-    // More robust CSV parser that handles quoted fields with commas and escape sequences
+    // Parse the entire CSV stream so quoted fields may contain commas and line breaks.
     function parseCSV(text) {
         try {
-            const result = [];
-            const lines = text.trim().split('\n');
-            if (lines.length === 0) return result;
-            
-            // Parse CSV line considering quotes
-            function parseLine(line) {
-                const fields = [];
-                let current = '';
-                let inQuotes = false;
-                
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    const nextChar = line[i + 1];
-                    
-                    if (char === '"') {
-                        if (inQuotes && nextChar === '"') {
-                            // Handle escaped quotes
-                            current += '"';
-                            i++; // Skip next quote
-                        } else {
-                            // Toggle quote mode
-                            inQuotes = !inQuotes;
-                        }
-                    } else if (char === ',' && !inQuotes) {
-                        // Process the field when we hit a comma outside quotes
-                        fields.push(current.trim());
-                        current = '';
+            const rows = [];
+            let row = [];
+            let current = '';
+            let inQuotes = false;
+            const normalizedText = text
+                .replace(/^\uFEFF/, '')
+                .replace(/\r\n/g, '\n')
+                .replace(/\r/g, '\n');
+
+            for (let i = 0; i < normalizedText.length; i++) {
+                const char = normalizedText[i];
+                const nextChar = normalizedText[i + 1];
+
+                if (char === '"') {
+                    if (inQuotes && nextChar === '"') {
+                        current += '"';
+                        i++;
                     } else {
-                        current += char;
+                        inQuotes = !inQuotes;
                     }
+                } else if (char === ',' && !inQuotes) {
+                    row.push(current.trim());
+                    current = '';
+                } else if (char === '\n' && !inQuotes) {
+                    row.push(current.trim());
+                    current = '';
+                    if (row.some(field => field !== '')) {
+                        rows.push(row);
+                    }
+                    row = [];
+                } else {
+                    current += char;
                 }
-                fields.push(current.trim());
-                return fields;
             }
-            
-            const headers = parseLine(lines[0]);
+
+            if (inQuotes) {
+                throw new Error('CSV contains an unclosed quoted field');
+            }
+
+            if (current || row.length) {
+                row.push(current.trim());
+                if (row.some(field => field !== '')) {
+                    rows.push(row);
+                }
+            }
+
+            if (rows.length === 0) return [];
+
+            const headers = rows.shift().map(header => header.trim());
             console.log('CSV Headers:', headers);
-            
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-                
-                const fields = parseLine(line);
+
+            const result = rows.map((fields) => {
                 const row = {};
-                
+
                 headers.forEach((header, idx) => {
                     row[header.trim()] = fields[idx] || '';
                 });
-                
-                result.push(row);
-            }
-            
+
+                return row;
+            });
+
             console.log('CSV parsed successfully:', result.length, 'rows');
             return result;
         } catch (error) {

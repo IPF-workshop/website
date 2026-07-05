@@ -83,7 +83,12 @@
             console.log('Loading 2025 workshop schedule...');
             try {
                 // Load the shared schedule component
-                const response = await fetch('../components/schedule-reader.html');
+                const response = await fetch('../components/schedule-reader.html', {
+                    cache: 'no-cache',
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`Failed to load schedule component: ${response.status}`);
                 }
