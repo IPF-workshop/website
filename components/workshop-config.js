@@ -7,7 +7,7 @@
 
 const WORKSHOP_CONFIG = {
     // Current workshop year
-    currentYear: 2026,
+    currentYear: 2027,
     
     // Workshop phase: 'call-for-talks', 'schedule', 'past', 'upcoming'
     currentPhase: 'upcoming',
@@ -26,9 +26,15 @@ const WORKSHOP_CONFIG = {
             scheduleDataPath: '2025/schedule.csv'
         },
         2026: {
-            date: 'Summer 2026',
+            date: 'Monday, July 20th, 2026',
+            location: 'Bar-Ilan University, Ramat Gan',
+            registrationUrl: null,
+            scheduleDataPath: '2026/schedule.csv'
+        },
+        2027: {
+            date: 'July 2027',
             location: 'TBD',
-            registrationUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfHp0EslKUkQcztFAkVuYVIBoGKdsUCgOQL98bwzelvx0NiJA/viewform?usp=header',
+            registrationUrl: null,
             scheduleDataPath: null
         }
     }
